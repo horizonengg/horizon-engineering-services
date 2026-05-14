@@ -194,7 +194,7 @@ export default function Home() {
                 <h3 className="service-card__title">{s.title}</h3>
                 <p className="service-card__desc">{s.desc}</p>
                 <div className="service-card__line" />
-                <div className="service-card__hover-label">Learn More →</div>
+                {/* <div className="service-card__hover-label">Learn More →</div> */}
               </div>
             ))}
           </div>
