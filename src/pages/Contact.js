@@ -83,7 +83,7 @@ export default function Contact() {
                 </a>
               </div>
             </div>
-            <div className="contact-info__item">
+            {/* <div className="contact-info__item">
               <span className="contact-info__icon"><FaPhone /></span>
               <div>
                 <div className="contact-info__label">Phone</div>
@@ -91,7 +91,7 @@ export default function Contact() {
                   +91 12345 67890
                 </a>
               </div>
-            </div>
+            </div> */}
             <div className="contact-info__item">
               <span className="contact-info__icon"><FaMapMarkerAlt /></span>
               <div>
