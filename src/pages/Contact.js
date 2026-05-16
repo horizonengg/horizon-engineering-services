@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { FaEnvelope, FaPhone, FaMapMarkerAlt, FaCheckCircle } from 'react-icons/fa';
+import React, { useState, useEffect } from 'react';
 import './Contact.css';
 
 /* ─── Replace YOUR_WEB3FORMS_ACCESS_KEY with your actual key from web3forms.com ─── */
@@ -70,7 +71,9 @@ export default function Contact() {
     setStatus('error');
   }
 };
-  
+useEffect(() => {
+  window.scrollTo({ top: 0, behavior: 'instant' });
+}, []);
   return (
     <div className="contact-page">
       {/* Hero strip */}
