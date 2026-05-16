@@ -32,9 +32,6 @@ export default function Contact() {
   else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email))
     newErrors.email = 'Please enter a valid email address';
   if (!form.phone.trim()) newErrors.phone = 'Phone number is required';
-  if (!form.message.trim()) newErrors.message = 'Message is required';
-  else if (form.message.trim().length < 4)
-    newErrors.message = 'Message must be at least 4 characters';
   return newErrors;
 };
   const handleSubmit = async e => {
@@ -204,16 +201,12 @@ useEffect(() => {
                   {errors.phone && <span className="contact-form__field-error">{errors.phone}</span>}
                 </div>
                 <div className="contact-form__group">
-                  <label htmlFor="service">Service of Interest *</label>
+                  <label htmlFor="service">Service of Interest </label>
                   <select
                     id="service"
                     name="service"
                     value={form.service}
-                    onChange={e => {
-                      handleChange(e);
-                      setErrors(prev => ({ ...prev, service: '' }));
-                    }}
-                    className={errors.service ? 'input--error' : ''}
+                    onChange={handleChange}
                   >
                     <option value="">Select a service…</option>
                     {SERVICES_LIST.map(s => (
@@ -225,18 +218,14 @@ useEffect(() => {
               </div>
 
               <div className="contact-form__group">
-                <label htmlFor="message">Your Message *</label>
+                <label htmlFor="message">Your Message</label>
                 <textarea
                   id="message"
                   name="message"
                   rows={6}
                   placeholder="Please describe your project or query…"
                   value={form.message}
-                  onChange={e => {
-                    handleChange(e);
-                    setErrors(prev => ({ ...prev, message: '' }));
-                  }}
-                  className={errors.message ? 'input--error' : ''}
+                  onChange={handleChange}
                 />
                 {errors.message && <span className="contact-form__field-error">{errors.message}</span>}
               </div>
