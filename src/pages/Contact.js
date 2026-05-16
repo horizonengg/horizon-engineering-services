@@ -15,6 +15,7 @@ const SERVICES_LIST = [
 ];
 
 export default function Contact() {
+  const [errors, setErrors] = useState({});
   const [form, setForm] = useState({
     name: '', email: '', phone: '', service: '', message: '',
   });
@@ -23,36 +24,53 @@ export default function Contact() {
   const handleChange = e => {
     setForm(prev => ({ ...prev, [e.target.name]: e.target.value }));
   };
-
+  const validate = () => {
+  const newErrors = {};
+  if (!form.name.trim()) newErrors.name = 'Full name is required';
+  if (!form.email.trim()) newErrors.email = 'Email address is required';
+  else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email))
+    newErrors.email = 'Please enter a valid email address';
+  if (!form.phone.trim()) newErrors.phone = 'Phone number is required';
+  if (!form.message.trim()) newErrors.message = 'Message is required';
+  else if (form.message.trim().length < 4)
+    newErrors.message = 'Message must be at least 4 characters';
+  return newErrors;
+};
   const handleSubmit = async e => {
-    e.preventDefault();
-    setStatus('sending');
+  e.preventDefault();
+  const newErrors = validate();
+  if (Object.keys(newErrors).length > 0) {
+    setErrors(newErrors);
+    return;
+  }
+  setErrors({});
+  setStatus('sending');
 
-    const payload = {
-      access_key: WEB3FORMS_KEY,
-      subject: `New Enquiry from ${form.name} – Horizon Engineering Services LLP`,
-      from_name: form.name,
-      ...form,
-    };
-
-    try {
-      const res = await fetch('https://api.web3forms.com/submit', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
-        body: JSON.stringify(payload),
-      });
-      const data = await res.json();
-      if (data.success) {
-        setStatus('success');
-        setForm({ name: '', email: '', phone: '', service: '', message: '' });
-      } else {
-        setStatus('error');
-      }
-    } catch {
-      setStatus('error');
-    }
+  const payload = {
+    access_key: WEB3FORMS_KEY,
+    subject: `New Enquiry from ${form.name} – Horizon Engineering Services`,
+    from_name: form.name,
+    ...form,
   };
 
+  try {
+    const res = await fetch('https://api.web3forms.com/submit', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+      body: JSON.stringify(payload),
+    });
+    const data = await res.json();
+    if (data.success) {
+      setStatus('success');
+      setForm({ name: '', email: '', phone: '', service: '', message: '' });
+    } else {
+      setStatus('error');
+    }
+  } catch {
+    setStatus('error');
+  }
+};
+  
   return (
     <div className="contact-page">
       {/* Hero strip */}
@@ -137,11 +155,15 @@ export default function Contact() {
                     id="name"
                     name="name"
                     type="text"
-                    required
                     placeholder="John Smith"
                     value={form.name}
-                    onChange={handleChange}
+                    onChange={e => {
+                      handleChange(e);
+                      setErrors(prev => ({ ...prev, name: '' }));
+                    }}
+                    className={errors.name ? 'input--error' : ''}
                   />
+                  {errors.name && <span className="contact-form__field-error">{errors.name}</span>}
                 </div>
                 <div className="contact-form__group">
                   <label htmlFor="email">Email Address *</label>
@@ -149,39 +171,53 @@ export default function Contact() {
                     id="email"
                     name="email"
                     type="email"
-                    required
                     placeholder="john@company.com"
                     value={form.email}
-                    onChange={handleChange}
+                    onChange={e => {
+                      handleChange(e);
+                      setErrors(prev => ({ ...prev, email: '' }));
+                    }}
+                    className={errors.email ? 'input--error' : ''}
                   />
+                  {errors.email && <span className="contact-form__field-error">{errors.email}</span>}
                 </div>
               </div>
 
               <div className="contact-form__row">
                 <div className="contact-form__group">
-                  <label htmlFor="phone">Phone Number</label>
+                  <label htmlFor="phone">Phone Number *</label>
                   <input
                     id="phone"
                     name="phone"
                     type="tel"
                     placeholder="+91 XXXXX XXXXX"
                     value={form.phone}
-                    onChange={handleChange}
+                    onChange={e => {
+                      handleChange(e);
+                      setErrors(prev => ({ ...prev, phone: '' }));
+                    }}
+                    className={errors.phone ? 'input--error' : ''}
                   />
+                  {errors.phone && <span className="contact-form__field-error">{errors.phone}</span>}
                 </div>
                 <div className="contact-form__group">
-                  <label htmlFor="service">Service of Interest</label>
+                  <label htmlFor="service">Service of Interest *</label>
                   <select
                     id="service"
                     name="service"
                     value={form.service}
-                    onChange={handleChange}
+                    onChange={e => {
+                      handleChange(e);
+                      setErrors(prev => ({ ...prev, service: '' }));
+                    }}
+                    className={errors.service ? 'input--error' : ''}
                   >
                     <option value="">Select a service…</option>
                     {SERVICES_LIST.map(s => (
                       <option key={s} value={s}>{s}</option>
                     ))}
                   </select>
+                  {errors.service && <span className="contact-form__field-error">{errors.service}</span>}
                 </div>
               </div>
 
@@ -190,12 +226,16 @@ export default function Contact() {
                 <textarea
                   id="message"
                   name="message"
-                  required
                   rows={6}
                   placeholder="Please describe your project or query…"
                   value={form.message}
-                  onChange={handleChange}
+                  onChange={e => {
+                    handleChange(e);
+                    setErrors(prev => ({ ...prev, message: '' }));
+                  }}
+                  className={errors.message ? 'input--error' : ''}
                 />
+                {errors.message && <span className="contact-form__field-error">{errors.message}</span>}
               </div>
 
               {/* Honeypot for spam protection */}
