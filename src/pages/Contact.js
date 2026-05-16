@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { FaEnvelope, FaPhone, FaMapMarkerAlt, FaCheckCircle } from 'react-icons/fa';
 import React, { useState, useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
 import './Contact.css';
 
 /* ─── Replace YOUR_WEB3FORMS_ACCESS_KEY with your actual key from web3forms.com ─── */
@@ -68,15 +69,21 @@ export default function Contact() {
     setStatus('error');
   }
 };
+const location = useLocation();
+
 useEffect(() => {
-  window.scrollTo({ top: 0, behavior: 'instant' });
-}, []);
+  document.documentElement.scrollTop = 0;
+  document.body.scrollTop = 0;
+}, [location.pathname]);
   return (
     <div className="contact-page">
       {/* Hero strip */}
       <div className="contact-hero">
         <div className="contact-hero__overlay" />
         <div className="contact-hero__content container">
+          <p className="contact-hero__sub">
+              
+          </p>
           <span className="section-label">Get In Touch</span>
           <h1 className="contact-hero__title">Let's Build Together</h1>
           <p className="contact-hero__sub">
