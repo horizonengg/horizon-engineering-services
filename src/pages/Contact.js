@@ -1,6 +1,5 @@
-import React, { useState } from 'react';
-import { FaEnvelope, FaPhone, FaMapMarkerAlt, FaCheckCircle } from 'react-icons/fa';
 import React, { useState, useEffect } from 'react';
+import { FaEnvelope, FaPhone, FaMapMarkerAlt, FaCheckCircle } from 'react-icons/fa';
 import { useLocation } from 'react-router-dom';
 import './Contact.css';
 
