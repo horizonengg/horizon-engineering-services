@@ -3,7 +3,7 @@ import { FaEnvelope, FaPhone, FaMapMarkerAlt, FaCheckCircle } from 'react-icons/
 import './Contact.css';
 
 /* ─── Replace YOUR_WEB3FORMS_ACCESS_KEY with your actual key from web3forms.com ─── */
-const WEB3FORMS_KEY = 'be8eda4c-5f6d-4326-b0d6-6ddacb6efc58';
+const WEB3FORMS_KEY = '16431043-c39e-4214-9467-5e9c20d4bc5a';
 
 const SERVICES_LIST = [
   'IT Services',
@@ -79,7 +79,7 @@ export default function Contact() {
               <div>
                 <div className="contact-info__label">Email</div>
                 <a href="mailto:info@horizonengineering.com" className="contact-info__value">
-                  info@horizonengineering.com
+                  info@horizonenggs.com
                 </a>
               </div>
             </div>
